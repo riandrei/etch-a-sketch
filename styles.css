@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: 'Koulen', cursive;
   background-color: lightgray;
@@ -12,15 +13,6 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
-
-header {
-  color: black;
-  border-top: 1rem double #545454;
-  border-bottom: 1rem double #545454;
-  font-size: 9vw;
-  padding: 0 0.5em;
-  margin-bottom: 10vw;
 }
 
 .indicators-and-buttons {
@@ -76,4 +68,10 @@ header {
 }
 .tools-dock img {
   width: 8vw;
+}
+@media (min-width: 641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+  .tools-dock img {
+    width: 5vw;
+  }
 }
