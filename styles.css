@@ -46,10 +46,23 @@ body {
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   max-width: 320px;
-  margin: 4rem auto;
+  margin: 5rem auto;
 }
 .canvas > * {
   background-color: white;
   width: 2rem;
   height: 2rem;
+}
+
+.tools-dock {
+  background-color: white;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  border-radius: 1.3rem;
+  padding: 4em 0;
+  width: 90vw;
+}
+.tools-dock img {
+  width: 8vw;
 }
