@@ -69,9 +69,26 @@ body {
 .tools-dock img {
   width: 8vw;
 }
+
 @media (min-width: 641px) {
   /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
   .tools-dock img {
     width: 5vw;
+  }
+}
+
+@media (min-width: 961px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+  .tools-dock {
+    grid-template-columns: initial;
+    border-radius: 0;
+    position: fixed;
+    left: 0;
+    margin: 0;
+    height: 100vh;
+    width: 10vw;
+  }
+  .tools-dock img {
+    width: 4vw;
   }
 }
