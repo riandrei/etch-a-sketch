@@ -13,6 +13,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 .indicators-and-buttons {
@@ -54,6 +55,8 @@ body {
   background-color: white;
   width: 2rem;
   height: 2rem;
+}
+.pixels {
 }
 .canvas-dimensions {
   gap: 1.9em;
