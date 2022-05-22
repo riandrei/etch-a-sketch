@@ -79,6 +79,13 @@ body {
 
 @media (min-width: 961px) {
   /* tablet, landscape iPad, lo-res laptops ands desktops */
+  .canvas {
+    max-width: 480px;
+  }
+  .canvas > * {
+    width: 3rem;
+    height: 3rem;
+  }
   .tools-dock {
     grid-template-columns: initial;
     border-radius: 0;
