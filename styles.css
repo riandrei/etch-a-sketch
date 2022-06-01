@@ -56,8 +56,6 @@ body {
   width: 2rem;
   height: 2rem;
 }
-.pixels {
-}
 .canvas-dimensions {
   gap: 1.9em;
 }
@@ -107,7 +105,6 @@ body {
     width: 3rem;
     height: 3rem;
   }
-
   .tools-dock {
     grid-template-columns: initial;
     border-radius: 0;
