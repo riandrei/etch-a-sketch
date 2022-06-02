@@ -59,6 +59,9 @@ body {
   gap: 1.9em;
 }
 
+img {
+}
+
 .tools-dock {
   background-color: white;
   display: grid;
@@ -68,13 +71,18 @@ body {
   padding: 4em 0;
   width: 90vw;
 }
+.tools-dock button {
+  all: unset;
+}
 .tools-dock img {
   width: 8vw;
 }
 .tools-dock input {
-  position: absolute;
   visibility: hidden;
-  transform: translate(-14.8rem, -3rem);
+  position: absolute;
+  width: 20px;
+  top: 35%;
+  left: 20%;
 }
 
 @media (min-width: 641px) {
@@ -116,5 +124,9 @@ body {
   }
   .tools-dock img {
     width: 4vw;
+  }
+  .tools-dock input {
+    top: 22%;
+    left: 105%;
   }
 }

@@ -1,5 +1,7 @@
 const canvas = document.querySelector(`.canvas`);
 const canvasResize = document.querySelector(`.canvas-resize`);
+const colorPickerIcon = document.querySelector(`.color-picker-icon`);
+const colorPicker = document.querySelector(`#color-picker`);
 let canvasDimension = 16;
 let count = 1;
 let canvasPixels = canvasDimension * canvasDimension;
@@ -90,8 +92,9 @@ function paint(e) {
     return;
   }
 
-  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: black;`);
+  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: ${getPaintColor()};`);
 }
+
 function togglePaint() {
   count++;
   if (count % 2 == 0) {
@@ -99,4 +102,10 @@ function togglePaint() {
     return;
   }
   canvas.removeEventListener(`mouseover`, paint);
+}
+
+window.addEventListener(`mousedown`, getPaintColor);
+
+function getPaintColor() {
+  return colorPicker.value;
 }
