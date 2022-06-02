@@ -2,6 +2,7 @@ const canvas = document.querySelector(`.canvas`);
 const canvasResize = document.querySelector(`.canvas-resize`);
 const eraser = document.querySelector(`.eraser`);
 const paintSprayer = document.querySelector(`.paint-sprayer`);
+const resetButton = document.querySelector(`.reset-button`);
 let canvasDimension = 16;
 let count = 1;
 let eraseOn = false;
@@ -11,6 +12,12 @@ let canvasPixels = canvasDimension * canvasDimension;
 createCanvasPixels();
 
 const pixels = document.querySelectorAll(`.pixels`);
+
+resetButton.addEventListener(`click`, () => {
+  pixels.forEach((pixel) => {
+    pixel.setAttribute(`style`, pixel.getAttribute(`style`) + ` background-color: white;`);
+  });
+});
 
 paintSprayer.addEventListener(`click`, toggleBucketTool);
 
