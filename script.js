@@ -1,12 +1,16 @@
 const canvas = document.querySelector(`.canvas`);
 const canvasResize = document.querySelector(`.canvas-resize`);
-const colorPickerIcon = document.querySelector(`.color-picker-icon`);
-const colorPicker = document.querySelector(`#color-picker`);
+const eraser = document.querySelector(`.eraser`);
 let canvasDimension = 16;
 let count = 1;
+let on = false;
 let canvasPixels = canvasDimension * canvasDimension;
 
 createCanvasPixels();
+
+window.addEventListener(`keydown`, toggleErase);
+eraser.addEventListener(`click`, toggleErase);
+window.addEventListener(`click`, getPaintColor);
 
 window.addEventListener(`resize`, setPixelDimensions);
 
@@ -104,8 +108,28 @@ function togglePaint() {
   canvas.removeEventListener(`mouseover`, paint);
 }
 
-window.addEventListener(`mousedown`, getPaintColor);
+function erase(e) {
+  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: white;`);
+}
+
+function toggleErase(e) {
+  if (e.keyCode != 69 && e.keyCode != undefined) {
+    return;
+  }
+
+  on = !on;
+
+  if (on) {
+    canvas.addEventListener(`mouseover`, erase);
+
+    return;
+  }
+
+  canvas.removeEventListener(`mouseover`, erase);
+}
 
 function getPaintColor() {
+  const colorPicker = document.querySelector(`#color-picker`);
+
   return colorPicker.value;
 }
