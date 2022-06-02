@@ -1,15 +1,23 @@
 const canvas = document.querySelector(`.canvas`);
 const canvasResize = document.querySelector(`.canvas-resize`);
 const eraser = document.querySelector(`.eraser`);
+const paintSprayer = document.querySelector(`.paint-sprayer`);
 let canvasDimension = 16;
 let count = 1;
-let on = false;
+let eraseOn = false;
+let bucketOn = false;
 let canvasPixels = canvasDimension * canvasDimension;
 
 createCanvasPixels();
 
+const pixels = document.querySelectorAll(`.pixels`);
+
+paintSprayer.addEventListener(`click`, toggleBucketTool);
+
 window.addEventListener(`keydown`, toggleErase);
+
 eraser.addEventListener(`click`, toggleErase);
+
 window.addEventListener(`click`, getPaintColor);
 
 window.addEventListener(`resize`, setPixelDimensions);
@@ -117,15 +125,33 @@ function toggleErase(e) {
     return;
   }
 
-  on = !on;
+  eraseOn = !eraseOn;
 
-  if (on) {
+  if (eraseOn) {
     canvas.addEventListener(`mouseover`, erase);
 
     return;
   }
 
   canvas.removeEventListener(`mouseover`, erase);
+}
+
+function paintAll() {
+  pixels.forEach((pixel) => {
+    pixel.setAttribute(`style`, pixel.getAttribute(`style`) + ` background-color: ${getPaintColor()};`);
+  });
+}
+
+function toggleBucketTool(e) {
+  bucketOn = !bucketOn;
+
+  if (bucketOn) {
+    canvas.addEventListener(`click`, paintAll);
+
+    return;
+  }
+
+  canvas.removeEventListener(`click`, paintAll);
 }
 
 function getPaintColor() {
