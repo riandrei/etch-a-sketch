@@ -1,9 +1,12 @@
 const canvas = document.querySelector(`.canvas`);
 const canvasResize = document.querySelector(`.canvas-resize`);
 let canvasDimension = 16;
+let count = 1;
 let canvasPixels = canvasDimension * canvasDimension;
 
 createCanvasPixels();
+
+window.addEventListener(`resize`, setPixelDimensions);
 
 canvasResize.addEventListener(`click`, changeCanvasSize);
 
@@ -15,6 +18,8 @@ canvas.addEventListener(`mouseover`, (e) => {
   yCoordinate.textContent = `Y: ${e.target.dataset.y}`;
 });
 
+canvas.addEventListener(`click`, togglePaint);
+
 function createCanvasPixels() {
   let x = 1;
   let y = 1;
@@ -25,7 +30,6 @@ function createCanvasPixels() {
     pixel.classList.add(`pixels`);
     pixel.dataset.x = x;
     pixel.dataset.y = y;
-
     x++;
     if (i % canvasDimension == 0) {
       x = 1;
@@ -34,6 +38,8 @@ function createCanvasPixels() {
 
     canvas.appendChild(pixel);
   }
+
+  setPixelDimensions();
 }
 
 function changeCanvasSize() {
@@ -74,8 +80,23 @@ function setPixelDimensions() {
 
     return;
   }
-
   pixels.forEach((pixel) => {
     pixel.setAttribute(`style`, `width: ${480 / canvasDimension}px; height: ${480 / canvasDimension}px;`);
   });
+}
+
+function paint(e) {
+  if (e.target.classList.value != `pixels`) {
+    return;
+  }
+
+  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: black;`);
+}
+function togglePaint() {
+  count++;
+  if (count % 2 == 0) {
+    canvas.addEventListener(`mouseover`, paint);
+    return;
+  }
+  canvas.removeEventListener(`mouseover`, paint);
 }

@@ -29,12 +29,13 @@ body {
   font-size: 4vw;
 }
 .coordinates {
-  gap: 3em;
+  gap: 2.7em;
 }
 .canvas-dimensions {
   gap: 2em;
 }
 .buttons > * {
+  font-family: 'Koulen', cursive;
   background-color: #fc3768;
   color: white;
   border: none;
@@ -53,8 +54,6 @@ body {
 }
 .canvas > * {
   background-color: white;
-  width: 2rem;
-  height: 2rem;
 }
 .canvas-dimensions {
   gap: 1.9em;
@@ -71,6 +70,11 @@ body {
 }
 .tools-dock img {
   width: 8vw;
+}
+.tools-dock input {
+  position: absolute;
+  visibility: hidden;
+  transform: translate(-14.8rem, -3rem);
 }
 
 @media (min-width: 641px) {
@@ -100,10 +104,6 @@ body {
   .canvas {
     max-width: 480px;
     margin: 1rem 0 1rem 10rem;
-  }
-  .canvas > * {
-    width: 3rem;
-    height: 3rem;
   }
   .tools-dock {
     grid-template-columns: initial;
