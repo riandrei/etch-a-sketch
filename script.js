@@ -30,7 +30,7 @@ eraser.addEventListener(`pointerdown`, toggleErase);
 
 window.addEventListener(`pointerdown`, getPaintColor);
 
-window.addEventListener(`resize`, setPixelDimensions);
+window.addEventListener(`resize`, changePixelDimensions);
 
 canvasResize.addEventListener(`pointerdown`, changeCanvasSize);
 
@@ -106,6 +106,25 @@ function setPixelDimensions() {
   }
   pixels.forEach((pixel) => {
     pixel.setAttribute(`style`, `width: ${480 / canvasDimension}px; height: ${480 / canvasDimension}px;`);
+  });
+}
+
+function changePixelDimensions() {
+  if (document.body.clientWidth < 961) {
+    pixels.forEach((pixel) => {
+      pixel.setAttribute(
+        `style`,
+        pixel.getAttribute(`style`) + `width: ${320 / canvasDimension}px; height: ${320 / canvasDimension}px;`
+      );
+    });
+
+    return;
+  }
+  pixels.forEach((pixel) => {
+    pixel.setAttribute(
+      `style`,
+      pixel.getAttribute(`style`) + `width: ${480 / canvasDimension}px; height: ${480 / canvasDimension}px;`
+    );
   });
 }
 
