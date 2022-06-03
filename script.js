@@ -1,4 +1,5 @@
 const canvas = document.querySelector(`.canvas`);
+const downloadButton = document.querySelector(`.download-button`);
 const canvasResize = document.querySelector(`.canvas-resize`);
 const eraser = document.querySelector(`.eraser`);
 const paintSprayer = document.querySelector(`.paint-sprayer`);
@@ -13,25 +14,27 @@ createCanvasPixels();
 
 const pixels = document.querySelectorAll(`.pixels`);
 
-resetButton.addEventListener(`click`, () => {
+canvas.addEventListener(`pointerleave`, captureCanvas);
+
+resetButton.addEventListener(`pointerdown`, () => {
   pixels.forEach((pixel) => {
     pixel.setAttribute(`style`, pixel.getAttribute(`style`) + ` background-color: white;`);
   });
 });
 
-paintSprayer.addEventListener(`click`, toggleBucketTool);
+paintSprayer.addEventListener(`pointerdown`, toggleBucketTool);
 
 window.addEventListener(`keydown`, toggleErase);
 
-eraser.addEventListener(`click`, toggleErase);
+eraser.addEventListener(`pointerdown`, toggleErase);
 
-window.addEventListener(`click`, getPaintColor);
+window.addEventListener(`pointerdown`, getPaintColor);
 
 window.addEventListener(`resize`, setPixelDimensions);
 
-canvasResize.addEventListener(`click`, changeCanvasSize);
+canvasResize.addEventListener(`pointerdown`, changeCanvasSize);
 
-canvas.addEventListener(`mouseover`, (e) => {
+canvas.addEventListener(`pointerover`, (e) => {
   const xCoordinate = document.querySelector(`.x-coordinate`);
   const yCoordinate = document.querySelector(`.y-coordinate`);
 
@@ -39,7 +42,7 @@ canvas.addEventListener(`mouseover`, (e) => {
   yCoordinate.textContent = `Y: ${e.target.dataset.y}`;
 });
 
-canvas.addEventListener(`click`, togglePaint);
+canvas.addEventListener(`pointerdown`, togglePaint);
 
 function createCanvasPixels() {
   let x = 1;
@@ -153,16 +156,29 @@ function toggleBucketTool(e) {
   bucketOn = !bucketOn;
 
   if (bucketOn) {
-    canvas.addEventListener(`click`, paintAll);
+    canvas.addEventListener(`pointerdown`, paintAll);
 
     return;
   }
 
-  canvas.removeEventListener(`click`, paintAll);
+  canvas.removeEventListener(`pointerdown`, paintAll);
 }
 
 function getPaintColor() {
   const colorPicker = document.querySelector(`#color-picker`);
 
   return colorPicker.value;
+}
+
+function captureCanvas() {
+  html2canvas(document.querySelector('.canvas')).then((canvas) => {
+    console.log(`hello`);
+    const dataURL = canvas.toDataURL(`image/jpeg`);
+    let downloadButton = document.querySelector(`.download-button`);
+
+    downloadButton.href = dataURL;
+
+    downloadButton = document.querySelector(`.download-button`);
+    downloadButton.download = `pixelArt.jpg`;
+  });
 }
