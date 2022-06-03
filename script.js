@@ -1,11 +1,10 @@
 const canvas = document.querySelector(`.canvas`);
-const downloadButton = document.querySelector(`.download-link`);
-const canvasResize = document.querySelector(`.canvas-resize`);
 const eraser = document.querySelector(`.eraser`);
-const paintSprayer = document.querySelector(`.paint-sprayer`);
+const paintSpray = document.querySelector(`.paint-spray`);
+const canvasResize = document.querySelector(`.canvas-resize`);
 const resetButton = document.querySelector(`.reset-button`);
 let canvasDimension = 16;
-let count = 1;
+let paintOn = false;
 let eraseOn = false;
 let bucketOn = false;
 let canvasPixels = canvasDimension * canvasDimension;
@@ -14,35 +13,24 @@ createCanvasPixels();
 
 const pixels = document.querySelectorAll(`.pixels`);
 
-canvas.addEventListener(`pointerleave`, captureCanvas);
-
-resetButton.addEventListener(`pointerdown`, () => {
-  pixels.forEach((pixel) => {
-    pixel.setAttribute(`style`, pixel.getAttribute(`style`) + ` background-color: white;`);
-  });
-});
-
-paintSprayer.addEventListener(`pointerdown`, toggleBucketTool);
-
-window.addEventListener(`keydown`, toggleErase);
-
-eraser.addEventListener(`pointerdown`, toggleErase);
+canvas.addEventListener(`pointerdown`, togglePaint);
 
 window.addEventListener(`pointerdown`, getPaintColor);
 
-window.addEventListener(`resize`, changePixelDimensions);
+eraser.addEventListener(`pointerdown`, toggleErase);
+window.addEventListener(`keydown`, toggleErase);
+
+paintSpray.addEventListener(`pointerdown`, toggleBucketTool);
 
 canvasResize.addEventListener(`pointerdown`, changeCanvasSize);
 
-canvas.addEventListener(`pointerover`, (e) => {
-  const xCoordinate = document.querySelector(`.x-coordinate`);
-  const yCoordinate = document.querySelector(`.y-coordinate`);
+window.addEventListener(`resize`, changePixelDimensions);
 
-  xCoordinate.textContent = `X: ${e.target.dataset.x}`;
-  yCoordinate.textContent = `Y: ${e.target.dataset.y}`;
-});
+canvas.addEventListener(`pointerover`, getCoordinates);
 
-canvas.addEventListener(`pointerdown`, togglePaint);
+canvas.addEventListener(`pointerleave`, captureCanvas);
+
+resetButton.addEventListener(`pointerdown`, reset);
 
 function createCanvasPixels() {
   let x = 1;
@@ -66,6 +54,67 @@ function createCanvasPixels() {
   setPixelDimensions();
 }
 
+function paint(e) {
+  if (e.target.classList.value != `pixels`) {
+    return;
+  }
+
+  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: ${getPaintColor()};`);
+}
+
+function togglePaint() {
+  paintOn = !paintOn;
+  if (paintOn) {
+    canvas.addEventListener(`mouseover`, paint);
+    return;
+  }
+  canvas.removeEventListener(`mouseover`, paint);
+}
+
+function getPaintColor() {
+  const colorPicker = document.querySelector(`#color-picker`);
+
+  return colorPicker.value;
+}
+
+function erase(e) {
+  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: white;`);
+}
+
+function toggleErase(e) {
+  if (e.keyCode != 69 && e.keyCode != undefined) {
+    return;
+  }
+
+  eraseOn = !eraseOn;
+
+  if (eraseOn) {
+    canvas.addEventListener(`mouseover`, erase);
+
+    return;
+  }
+
+  canvas.removeEventListener(`mouseover`, erase);
+}
+
+function paintAll() {
+  pixels.forEach((pixel) => {
+    pixel.setAttribute(`style`, pixel.getAttribute(`style`) + ` background-color: ${getPaintColor()};`);
+  });
+}
+
+function toggleBucketTool() {
+  bucketOn = !bucketOn;
+
+  if (bucketOn) {
+    canvas.addEventListener(`pointerdown`, paintAll);
+
+    return;
+  }
+
+  canvas.removeEventListener(`pointerdown`, paintAll);
+}
+
 function changeCanvasSize() {
   const textCanvasDimensions = document.querySelector(`.canvas-dimensions`);
 
@@ -87,12 +136,6 @@ function changeCanvasSize() {
 
   textCanvasDimensions.firstElementChild.textContent = `Width: ${canvasDimension}`;
   textCanvasDimensions.lastElementChild.textContent = `Height: ${canvasDimension}`;
-}
-
-function deleteCanvasPixels() {
-  while (canvas.lastChild) {
-    canvas.removeChild(canvas.lastChild);
-  }
 }
 
 function setPixelDimensions() {
@@ -128,76 +171,34 @@ function changePixelDimensions() {
   });
 }
 
-function paint(e) {
-  if (e.target.classList.value != `pixels`) {
-    return;
+function deleteCanvasPixels() {
+  while (canvas.lastChild) {
+    canvas.removeChild(canvas.lastChild);
   }
-
-  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: ${getPaintColor()};`);
 }
 
-function togglePaint() {
-  count++;
-  if (count % 2 == 0) {
-    canvas.addEventListener(`mouseover`, paint);
-    return;
-  }
-  canvas.removeEventListener(`mouseover`, paint);
-}
+function getCoordinates(e) {
+  const xCoordinate = document.querySelector(`.x-coordinate`);
+  const yCoordinate = document.querySelector(`.y-coordinate`);
 
-function erase(e) {
-  e.target.setAttribute(`style`, e.target.getAttribute(`style`) + ` background-color: white;`);
-}
-
-function toggleErase(e) {
-  if (e.keyCode != 69 && e.keyCode != undefined) {
-    return;
-  }
-
-  eraseOn = !eraseOn;
-
-  if (eraseOn) {
-    canvas.addEventListener(`mouseover`, erase);
-
-    return;
-  }
-
-  canvas.removeEventListener(`mouseover`, erase);
-}
-
-function paintAll() {
-  pixels.forEach((pixel) => {
-    pixel.setAttribute(`style`, pixel.getAttribute(`style`) + ` background-color: ${getPaintColor()};`);
-  });
-}
-
-function toggleBucketTool(e) {
-  bucketOn = !bucketOn;
-
-  if (bucketOn) {
-    canvas.addEventListener(`pointerdown`, paintAll);
-
-    return;
-  }
-
-  canvas.removeEventListener(`pointerdown`, paintAll);
-}
-
-function getPaintColor() {
-  const colorPicker = document.querySelector(`#color-picker`);
-
-  return colorPicker.value;
+  xCoordinate.textContent = `X: ${e.target.dataset.x}`;
+  yCoordinate.textContent = `Y: ${e.target.dataset.y}`;
 }
 
 function captureCanvas() {
   html2canvas(document.querySelector('.canvas')).then((canvas) => {
-    console.log(`hello`);
     const dataURL = canvas.toDataURL(`image/jpeg`);
     let downloadButton = document.querySelector(`.download-link`);
 
     downloadButton.href = dataURL;
 
-    downloadButton = document.querySelector(`.download-link`);
+    // downloadButton = document.querySelector(`.download-link`);
     downloadButton.download = `pixelArt.jpg`;
+  });
+}
+
+function reset() {
+  pixels.forEach((pixel) => {
+    pixel.setAttribute(`style`, pixel.getAttribute(`style`) + ` background-color: white;`);
   });
 }
