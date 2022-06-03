@@ -1,12 +1,12 @@
 const canvas = document.querySelector(`.canvas`);
-const eraser = document.querySelector(`.eraser`);
-const paintSpray = document.querySelector(`.paint-spray`);
+const eraserButton = document.querySelector(`.eraser-button`);
+const sprayButton = document.querySelector(`.spray-button`);
 const canvasResize = document.querySelector(`.canvas-resize`);
 const resetButton = document.querySelector(`.reset-button`);
 let canvasDimension = 16;
 let paintOn = false;
 let eraseOn = false;
-let bucketOn = false;
+let sprayOn = false;
 let canvasPixels = canvasDimension * canvasDimension;
 
 createCanvasPixels();
@@ -17,10 +17,10 @@ canvas.addEventListener(`pointerdown`, togglePaint);
 
 window.addEventListener(`pointerdown`, getPaintColor);
 
-eraser.addEventListener(`pointerdown`, toggleErase);
+eraserButton.addEventListener(`pointerdown`, toggleErase);
 window.addEventListener(`keydown`, toggleErase);
 
-paintSpray.addEventListener(`pointerdown`, toggleBucketTool);
+sprayButton.addEventListener(`pointerdown`, toggleSprayTool);
 
 canvasResize.addEventListener(`pointerdown`, changeCanvasSize);
 
@@ -63,11 +63,15 @@ function paint(e) {
 }
 
 function togglePaint() {
+  const paintButton = document.querySelector(`.paint-button`);
+
   paintOn = !paintOn;
   if (paintOn) {
+    paintButton.classList.add(`paint-button-on`);
     canvas.addEventListener(`mouseover`, paint);
     return;
   }
+  paintButton.classList.remove(`paint-button-on`);
   canvas.removeEventListener(`mouseover`, paint);
 }
 
@@ -89,11 +93,13 @@ function toggleErase(e) {
   eraseOn = !eraseOn;
 
   if (eraseOn) {
+    eraserButton.classList.add(`eraser-button-on`);
     canvas.addEventListener(`mouseover`, erase);
 
     return;
   }
 
+  eraserButton.classList.remove(`eraser-button-on`);
   canvas.removeEventListener(`mouseover`, erase);
 }
 
@@ -103,14 +109,16 @@ function paintAll() {
   });
 }
 
-function toggleBucketTool() {
-  bucketOn = !bucketOn;
+function toggleSprayTool() {
+  sprayOn = !sprayOn;
 
-  if (bucketOn) {
+  if (sprayOn) {
+    sprayButton.classList.add(`spray-button-on`);
     canvas.addEventListener(`pointerdown`, paintAll);
 
     return;
   }
+  sprayButton.classList.remove(`spray-button-on`);
 
   canvas.removeEventListener(`pointerdown`, paintAll);
 }
