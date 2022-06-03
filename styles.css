@@ -34,16 +34,19 @@ body {
 .canvas-dimensions {
   gap: 2em;
 }
-.buttons > * {
+.reset-button,
+.download-button {
   font-family: 'Koulen', cursive;
   background-color: #fc3768;
   color: white;
   border: none;
-  border-radius: 3px;
-  font-size: 2.15vw;
+  font-size: 1vw;
   margin: 0 0 0 1em;
   padding: 0.75em 0;
   width: 10em;
+}
+.buttons a {
+  all: unset;
 }
 
 .canvas {

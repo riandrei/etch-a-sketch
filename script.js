@@ -1,5 +1,5 @@
 const canvas = document.querySelector(`.canvas`);
-const downloadButton = document.querySelector(`.download-button`);
+const downloadButton = document.querySelector(`.download-link`);
 const canvasResize = document.querySelector(`.canvas-resize`);
 const eraser = document.querySelector(`.eraser`);
 const paintSprayer = document.querySelector(`.paint-sprayer`);
@@ -174,11 +174,11 @@ function captureCanvas() {
   html2canvas(document.querySelector('.canvas')).then((canvas) => {
     console.log(`hello`);
     const dataURL = canvas.toDataURL(`image/jpeg`);
-    let downloadButton = document.querySelector(`.download-button`);
+    let downloadButton = document.querySelector(`.download-link`);
 
     downloadButton.href = dataURL;
 
-    downloadButton = document.querySelector(`.download-button`);
+    downloadButton = document.querySelector(`.download-link`);
     downloadButton.download = `pixelArt.jpg`;
   });
 }
