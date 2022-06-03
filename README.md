@@ -11,3 +11,5 @@ Features:
 - Resize Canvas
 - Download Canvas
 - Reset Canvas
+
+Live Demo: https://riandrei.github.io/etch-a-sketch/
